@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class ListNode {
+class ListNode {
   var val: Int
   var next: ListNode?
   init(val: Int, next: ListNode? = nil) {
