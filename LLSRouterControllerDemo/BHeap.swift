@@ -87,4 +87,39 @@ class BHeap {
   func less(i: Int, j: Int) -> Bool {
     return i < j
   }
+	
+	func headSort(_ nums: inout [Int]) {
+		for i in (0..<nums.count/2).reversed() {
+			adjustHeap(&nums, index: i, nums.count - 1)
+		}
+		for i in (1..<nums.count).reversed() {
+			swap(&nums, 0, i)
+			adjustHeap(&nums, index: 0, i-1)
+		}
+	}
+	
+	func adjustHeap(_ nums: inout [Int], index: Int, _ len: Int) {
+		var i = index
+		var k = index * 2 + 1
+		let tmp = nums[i]
+		while k <= len {
+			if k+1 <= len && nums[k] < nums[k+1] {
+				k += 1
+			}
+			if tmp < nums[k] {
+				nums[i] = nums[k]
+				i = k
+			} else {
+				break
+			}
+			k = 2*k + 1
+		}
+		nums[i] = tmp
+	}
+	func swap(_ nums: inout [Int], _ a: Int, _ b: Int) {
+		let tmp = nums[a]
+		nums[a] = nums[b]
+		nums[b] = tmp
+	}
+	
 }

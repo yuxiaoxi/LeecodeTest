@@ -28,7 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     navigator.configHandleableUrlScheme(scheme: "llss")
     navigator.configFileNameOfURLMapping(fileName: "urlmapping")
     navigator.configMainNavigationViewController(mainNavigationViewController: navigationViewController)
-    let t = Lee.createTreeNode([40,30,50,25])
+		let l1 = ListNode.createListNode([1,4,5])
+		let l2 = ListNode.createListNode([1,3,4])
+		let l3 = ListNode.createListNode([2,6])
+		let t = LeecodeTest.Test240().searchMatrix([[1,3,5]], 5)
     return true
   }
 

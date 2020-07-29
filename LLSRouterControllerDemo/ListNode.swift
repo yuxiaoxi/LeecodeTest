@@ -11,10 +11,21 @@ import Foundation
 class ListNode {
   var val: Int
   var next: ListNode?
-  init(val: Int, next: ListNode? = nil) {
+  init(_ val: Int, next: ListNode? = nil) {
     self.val = val
     self.next = next
   }
+	
+	static func createListNode(_ nums: [Int]) -> ListNode? {
+		var numbers: [Int] = nums
+		let res: ListNode? = ListNode(numbers.removeFirst())
+		var t: ListNode? = res
+		for num in numbers {
+			t?.next = ListNode(num)
+			t = t?.next
+		}
+		return res
+	}
   
   /// 反转 条件：m <= n
   func revertListNode(head: ListNode?, m: Int, n: Int) -> ListNode? {

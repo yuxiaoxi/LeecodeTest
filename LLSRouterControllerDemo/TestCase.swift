@@ -662,5 +662,31 @@ class Lee {
     let str = "\(res)"
     return res
   }
+	
+	func setZeroes(_ matrix: inout [[Int]]) {
+			var rowSet: Set<Int> = []
+			var columSet: Set<Int> = []
+			let m = matrix.count
+			let n = matrix[0].count
+			for i in 0..<m {
+					for j in 0..<n {
+							if matrix[i][j] == 0 {
+									rowSet.insert(i)
+									columSet.insert(j)
+							}
+					}
+			}
+		for row in rowSet {
+			for j in 0..<n {
+				matrix[row][j] = 0
+			}
+		}
+		
+		for colum in columSet {
+			for i in 0..<m {
+				matrix[i][colum] = 0
+			}
+		}
+	}
   
 }
