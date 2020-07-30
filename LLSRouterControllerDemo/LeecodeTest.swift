@@ -451,9 +451,11 @@ public class LeecodeTest {
 							}
 						}
 					}
+					if i+1 < nums.count-2 && nums[i+1]>0 {
+						break
+					}
 					
-					
-					if i+1 < nums.count-2 && nums[i+1] == nums[i] {
+					if i+1 < nums.count-2 && (nums[i+1] == nums[i]){
 						tag = true
 					} else {
 						tag = false
