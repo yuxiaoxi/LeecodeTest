@@ -618,5 +618,104 @@ public class LeecodeTest {
 			}
 			return max(maxLen, tmp.count)
 		}
+		
+		func lengthOfLongestSubstring1(_ s: String) -> Int {
+			if s.count == 0 {
+				return 0
+			}
+			var end = 0
+			var start = 0
+			var lentgh = 0
+			var numDict: [Character : Int] = [:]
+			for char in s {
+				if let old = numDict[char] {
+					start = max(start, old)
+				}
+				lentgh = max(lentgh, end - start + 1)
+				end += 1
+				numDict[char] = end
+			}
+			return lentgh
+		}
+	}
+	
+	/// 最长回文子串
+	class Test5 {
+		func longestPalindrome(_ s: String) -> String {
+			if s.count == 0 {
+				return ""
+			}
+			if s.count == 1 {
+				return s
+			}
+			let chars = s.map { $0 }
+			
+			var i = 0
+			var j = 1
+			var dic: [Int: String] = [:]
+			var maxLen: Int = 1
+			while i<chars.count-maxLen && j<chars.count {
+				if j-i >= 1 && isPalindrome(chars, i, j) && j-i+1 > maxLen {
+					maxLen = j-i+1
+					if j-i+1 == maxLen {
+						dic[maxLen] = String(chars[i...j])
+					}
+					j += 1
+				} else {
+					if j == chars.count-1 && i<chars.count-maxLen {
+						i += 1
+						j = i+1
+						continue
+					}
+					j += 1
+				}
+			}
+			for key in dic.keys {
+				if key == maxLen {
+					return dic[key]!
+				}
+			}
+			return String(chars[0])
+		}
+		
+		func isPalindrome(_ chars: [Character], _ start: Int, _ end: Int) -> Bool {
+			for i in start..<(start+end+1)/2 {
+				if chars[i] != chars[end+start-i] {
+					return false
+				}
+			}
+			return true
+		}
+	}
+	
+	/// 有序链表转换二叉搜索树
+	class Test109 {
+		func sortedListToBST(_ head: ListNode?) -> TreeNode? {
+			guard let head = head else {
+				return nil
+			}
+			var nums: [Int] = []
+			var tmp: ListNode? = head
+			while tmp != nil {
+				nums.append(tmp!.val)
+				tmp = tmp?.next
+			}
+			return buildBinarySearchTree(nums, 0 , nums.count-1)
+		}
+		
+		func buildBinarySearchTree(_ nums: [Int], _ start: Int, _ end: Int) -> TreeNode? {
+			if start > end {
+				return nil
+			}
+			if start == end {
+				return TreeNode(nums[start])
+			}
+			
+			let mid = start + (end-start)/2
+			let root = TreeNode(nums[mid])
+			root.left = buildBinarySearchTree(nums, start, mid-1)
+			root.right = buildBinarySearchTree(nums, mid+1, end)
+			return root
+		}
 	}
 }
