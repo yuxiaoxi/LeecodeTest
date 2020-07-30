@@ -718,4 +718,25 @@ public class LeecodeTest {
 			return root
 		}
 	}
+	
+	class Test112 {
+		func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
+			guard let root = root else {
+				return false
+			}
+			
+			return findPath(root, sum)
+		}
+		
+		func findPath(_ root: TreeNode?, _ sum: Int) -> Bool {
+			guard let root = root else {
+				return false
+			}
+			
+			if root.left == nil && root.right == nil && root.val == sum {
+				return true
+			}
+			return findPath(root.left, sum-root.val) || findPath(root.right, sum-root.val)
+		}
+	}
 }
