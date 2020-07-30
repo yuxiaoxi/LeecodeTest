@@ -785,4 +785,82 @@ public class LeecodeTest {
 			}
 		}
 	}
+	
+	class Test99 {
+		func recoverTree(_ root: TreeNode?) {
+			guard let root = root else {
+				return
+			}
+			inorderTraversal(root)
+			if num1 != nil && num2 != nil {
+				var queue: [TreeNode] = [root]
+				
+				while queue.count > 0 {
+					let node = queue.removeFirst()
+					if let left = node.left {
+						queue.append(left)
+					}
+					if let right = node.right {
+						queue.append(right)
+					}
+					if node.val == num2! {
+						node.val = num1!
+						continue
+					}
+					if node.val == num1! {
+						node.val = num2!
+					}
+				}
+			}
+		}
+		
+		var num1: Int?
+		var num2: Int?
+		var tmp: Int?
+		func inorderTraversal(_ root: TreeNode?) -> Void {
+			guard let root = root else {
+				return
+			}
+			
+			inorderTraversal(root.left)
+			if tmp == nil {
+				tmp = root.val
+			} else {
+				if tmp! > root.val && num1 == nil {
+					num1 = tmp
+				}
+				if root.val < tmp! {
+					num2 = root.val
+				}
+				tmp = root.val
+			}
+			inorderTraversal(root.right)
+		}
+	}
+	
+	/// N 叉树的最大深度
+	class Test559 {
+		func maxDepth(_ root: Node?) -> Int {
+			guard let root = root else {
+				return 0
+			}
+			if root.children.count == 0 {
+				return 1
+			}
+			var maxH: Int = 0
+			for child in root.children {
+				maxH = max(maxH, maxDepth(child))
+			}
+			return maxH + 1
+		}
+	}
+}
+
+class Node {
+	var val: Int
+	var children: [Node]
+	init (_ val: Int, _ children: [Node]) {
+		self.val = val
+		self.children = children
+	}
 }

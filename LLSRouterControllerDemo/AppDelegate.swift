@@ -31,7 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let l1 = ListNode.createListNode([1,4,5])
 		let l2 = ListNode.createListNode([1,3,4])
 		let l3 = ListNode.createListNode([2,6])
-//		let t = LeecodeTest.Test().longestPalindrome("cbbd")
+		let root = TreeNode(1)
+		root.left = TreeNode(3)
+		root.left?.right = TreeNode(2)
+		let t = LeecodeTest.Test99().recoverTree(root)
     return true
   }
 
