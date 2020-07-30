@@ -579,4 +579,42 @@ public class LeecodeTest {
 			return false
 		}
 	}
+	class Test3 {
+		func lengthOfLongestSubstring(_ s: String) -> Int {
+			if s.count == 0 {
+				return 0
+			}
+			let chars: [Character] = s.map { $0 }
+			var tmp: [Character] = [chars[0]]
+			var i: Int = 0
+			var j: Int = 1
+			var maxLen: Int = 1
+			while i < chars.count-1 && j < chars.count {
+				if tmp.contains(chars[j]) {
+					if tmp[0] == chars[j] {
+						tmp.removeFirst()
+						tmp.append(chars[j])
+						j += 1
+						continue
+					}
+					if tmp.last! == chars[j] {
+						i = j
+						maxLen = max(maxLen, tmp.count)
+						tmp = [chars[j]]
+						j += 1
+						continue
+					}
+					
+					i += 1
+					j = i + 1
+					maxLen = max(maxLen, tmp.count)
+					tmp = [chars[i]]
+				} else {
+					tmp.append(chars[j])
+					j += 1
+				}
+			}
+			return max(maxLen, tmp.count)
+		}
+	}
 }
