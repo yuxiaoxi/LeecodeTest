@@ -739,4 +739,50 @@ public class LeecodeTest {
 			return findPath(root.left, sum-root.val) || findPath(root.right, sum-root.val)
 		}
 	}
+	
+	class Test113 {
+		func pathSum(_ root: TreeNode?, _ sum: Int) -> [[Int]] {
+			guard let root = root else {
+				return []
+			}
+			
+			findPath(ParentTreeNode(root.val, nil, root), sum)
+			return res
+		}
+		var res: [[Int]] = []
+		func findPath(_ root: ParentTreeNode?, _ sum: Int) -> Void {
+			guard let root = root else {
+				return
+			}
+			
+			if root.node?.left == nil && root.node?.right == nil && root.val == sum {
+				var tmp: ParentTreeNode? = root
+				var re: [Int] = []
+				while tmp != nil {
+					re.insert(tmp!.val, at: 0)
+					tmp = tmp?.parent
+				}
+				res.append(re)
+				return
+			}
+			if root.node?.left != nil {
+				findPath(ParentTreeNode(root.node!.left!.val, root, root.node?.left), sum-root.val)
+			}
+			if root.node?.right != nil {
+				findPath(ParentTreeNode(root.node!.right!.val, root, root.node?.right), sum-root.val)
+			}
+		}
+		class ParentTreeNode {
+			var left: ParentTreeNode?
+			var right: ParentTreeNode?
+			let parent: ParentTreeNode?
+			let node: TreeNode?
+			let val: Int
+			init(_ val: Int, _ parent: ParentTreeNode?, _ node: TreeNode?) {
+				self.val = val
+				self.parent = parent
+				self.node = node
+			}
+		}
+	}
 }
