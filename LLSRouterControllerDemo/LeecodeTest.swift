@@ -854,6 +854,102 @@ public class LeecodeTest {
 			return maxH + 1
 		}
 	}
+	
+	/// 二叉树转为链表
+	class Test114 {
+		func flatten(_ root: TreeNode?) {
+			guard let root = root else {
+				return
+			}
+			
+			var queue: [TreeNode] = [root]
+			var tmp: TreeNode?
+			while queue.count > 0 {
+				let node = queue.removeLast()
+				if let right = node.right {
+					queue.append(right)
+				}
+				if let left = node.left {
+					queue.append(left)
+				}
+				if tmp == nil {
+					tmp = node
+				} else {
+					tmp?.left = nil
+					tmp?.right = node
+					tmp = tmp?.right
+				}
+			}
+		}
+	}
+	
+	/// 二叉树的序列化与反序列化
+	class Test297 {
+		func serialize(_ root: TreeNode?) -> String {
+			guard let root = root else {
+				return ""
+			}
+			var queue: [TreeNode?] = [root]
+			var res: [String] = []
+			while queue.count > 0 {
+				let node = queue.removeFirst()
+				if node != nil {
+					queue.append(node?.left)
+					queue.append(node?.right)
+					res.append(String(node!.val))
+				} else {
+					res.append("null")
+				}
+			}
+			var last = res.last
+			while last != nil && last == "null" {
+				res.removeLast()
+				last = res.last
+			}
+			var str = "["
+			for re in res {
+				str.append(re + ",")
+			}
+			str.removeLast()
+			str.append("]")
+			return str
+		}
+		
+		func deserialize(_ data: String) -> TreeNode? {
+			var data = data
+			if data.count == 0 {
+				return nil
+			}
+			data.removeFirst()
+			data.removeLast()
+			let chars: [String] = data.split(separator: ",").map { String($0) }
+			if chars.count == 0 {
+				return nil
+			}
+			
+			let root: TreeNode = TreeNode((chars[0] as NSString).integerValue)
+			var queue: [TreeNode] = [root]
+			var count: Int = 0
+			while queue.count > 0 {
+				let node = queue.removeFirst()
+				let lIndex: Int = count*2 + 1
+				let rIndex: Int = count*2 + 2
+				if lIndex < chars.count && chars[lIndex] != "null" {
+					let left = TreeNode((chars[lIndex] as NSString).integerValue)
+					node.left = left
+					queue.append(left)
+				}
+				if rIndex < chars.count && chars[rIndex] != "null" {
+					let right = TreeNode((chars[rIndex] as NSString).integerValue)
+					node.right = right
+					queue.append(right)
+				}
+				count += 1
+			}
+			
+			return root
+		}
+	}
 }
 
 class Node {
