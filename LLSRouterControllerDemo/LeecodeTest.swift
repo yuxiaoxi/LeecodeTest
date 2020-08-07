@@ -950,6 +950,225 @@ public class LeecodeTest {
 			return root
 		}
 	}
+	
+	/// 删除排序链表中的重复元素 II
+	class Test82 {
+		func deleteDuplicates(_ head: ListNode?) -> ListNode? {
+			guard let head = head else {
+				return nil
+			}
+			
+			var target: ListNode? = nil
+			var first: ListNode? = head
+			var tmp: ListNode? = first?.next
+			var tag: Int = 0
+			
+			var t: ListNode? = nil
+			while tmp != nil {
+				if tmp!.val != first!.val {
+					if tag == 0 {
+						if target == nil {
+							target = ListNode(first!.val)
+							t = target
+						} else {
+							t?.next = ListNode(first!.val)
+							t = t?.next
+						}
+					} else {
+						tag = 0
+					}
+					first = tmp
+				} else {
+					tag += 1
+				}
+				tmp = tmp?.next
+			}
+			if target == nil && tag == 0 {
+				return first
+			}
+			if t != nil && first!.val != t!.val && tag == 0 {
+				t?.next = ListNode(first!.val)
+			}
+			
+			return target
+		}
+	}
+	
+	class Test92 {
+		func reverseBetween(_ head: ListNode?, _ m: Int, _ n: Int) -> ListNode? {
+			guard let head = head else {
+				return nil
+			}
+			if m == n {
+				return head
+			}
+			var t: ListNode? = head
+			var c: Int = 1
+			var first: ListNode?
+			var last: ListNode?
+			var tmp: ListNode?
+			while t != nil {
+				if c == m-1 {
+					tmp = t
+				}
+				if c == m {
+					first = t
+				}
+				
+				if c == n {
+					last = t?.next
+					t?.next = nil
+					break
+				}
+				c += 1
+				t = t?.next
+			}
+			let arr = reverseListNode(first)
+			let f = arr[0]
+			let l = arr[1]
+			l?.next = last
+			if tmp != nil {
+				tmp?.next = f
+			} else {
+				return f
+			}
+			
+			return head
+		}
+		
+		func reverseListNode(_ head: ListNode?) -> [ListNode?] {
+			guard let head = head else {
+				return [nil, nil]
+			}
+			if head.next == nil {
+				return [head, nil]
+			}
+			let node = reverseListNode(head.next)[0]
+			head.next?.next = head
+			head.next = nil
+			return [node, head]
+		}
+	}
+	
+	class LRUCache {
+		
+		var sortArr: [Int] = []
+		var dic: [Int: Int] = [:]
+		var capacity: Int = 0
+		
+		init(_ capacity: Int) {
+			self.capacity = capacity
+		}
+		
+		func get(_ key: Int) -> Int {
+			if dic[key] != nil {
+				let index = sortArr.firstIndex(of: key)!
+				sortArr.remove(at: index)
+				sortArr.append(key)
+				return dic[key]!
+			}
+			return -1
+		}
+		
+		func put(_ key: Int, _ value: Int) {
+			
+			if dic[key] != nil {
+				let index = sortArr.firstIndex(of: key)!
+				sortArr.remove(at: index)
+				sortArr.append(key)
+			} else {
+				if sortArr.count < capacity {
+					sortArr.append(key)
+				} else {
+					let first = sortArr.removeFirst()
+					dic.removeValue(forKey: first)
+					sortArr.append(key)
+				}
+			}
+			dic[key] = value
+		}
+	}
+	
+	/// 合并区间
+	class Test56 {
+		func merge(_ intervals: [[Int]]) -> [[Int]] {
+			var res: [[Int]] = []
+			var tmp: [Int] = []
+			var needMerge: Bool = false
+			var intervals = intervals
+			quickSort(&intervals, 0 , intervals.count-1)
+			for intval in intervals {
+				if tmp.count == 0 {
+					tmp = intval
+					continue
+				}
+				var re: [Int] = []
+				let l1 = tmp[0]
+				let l2 = tmp[1]
+				let l3 = intval[0]
+				let l4 = intval[1]
+				if l1 < l3 {
+					if l2 >= l3 {
+						if l4 > l2 {
+							re = [l1,l4]
+						} else {
+							re = [l1,l2]
+						}
+						needMerge = true
+						tmp = re
+					} else {
+						re = [l1,l2]
+						tmp = intval
+						res.append(re)
+					}
+				} else {
+					if l4 >= l1 {
+						if l2 > l4 {
+							re = [l3,l2]
+						}  else {
+							re = [l3,l4]
+						}
+						needMerge = true
+						tmp = re
+					} else {
+						re = [l1,l2]
+						tmp = intval
+						res.append(re)
+					}
+				}
+			}
+			if tmp.count > 0 {
+				res.append(tmp)
+			}
+			if needMerge {
+				needMerge = false
+				res = merge(res)
+			}
+			return res
+		}
+		
+		func quickSort(_ nums: inout [[Int]], _ start: Int, _ end: Int) {
+			if start >= end {
+				return
+			}
+			var i = start
+			var j = end
+			let tmp = nums[i]
+			while i < j {
+				while i<j && nums[j][0] >= tmp[0] {
+					j -= 1
+				}
+				nums[i] = nums[j]
+				while i<j && nums[i][0] <= tmp[0] {
+					i += 1
+				}
+				nums[j] = nums[i]
+			}
+			nums[i] = tmp
+			quickSort(&nums, start, i-1)
+			quickSort(&nums, i+1, end)
+		}
+	}
 }
 
 class Node {
