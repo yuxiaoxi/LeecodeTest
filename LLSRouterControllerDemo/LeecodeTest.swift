@@ -1288,6 +1288,43 @@ public class LeecodeTest {
 			return nums
 		}
 	}
+	
+	class Test561 {
+		func arrayPairSum(_ nums: [Int]) -> Int {
+			if nums.count == 0 {
+				return 0
+			}
+			
+			var nums = nums
+			quickSort(&nums, 0, nums.count-1)
+			var res: Int = 0
+			for i in 0..<(nums.count/2) {
+				res = res + nums[2*i]
+			}
+			return res
+		}
+		
+		func quickSort(_ nums: inout [Int], _ start: Int, _ end: Int) {
+			if start < end {
+				var i = start
+				var j = end
+				var tmp = nums[i]
+				while i<j {
+					while i<j && nums[j] >= tmp {
+						j -= 1
+					}
+					nums[i] = nums[j]
+					while i<j && nums[i] <= tmp {
+						i += 1
+					}
+					nums[j] = nums[i]
+				}
+				nums[i] = tmp
+				quickSort(&nums, start, i-1)
+				quickSort(&nums, i+1, end)
+			}
+		}
+	}
 }
 
 class Node {
