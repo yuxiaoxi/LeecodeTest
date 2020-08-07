@@ -1169,6 +1169,125 @@ public class LeecodeTest {
 			quickSort(&nums, i+1, end)
 		}
 	}
+	
+	class Test55 {
+		func canJump(_ nums: [Int]) -> Bool {
+			if nums.count == 0 {
+				return true
+			}
+			
+			return canJumpTmp(nums, nums.count-1)
+		}
+		
+		func canJumpTmp(_ nums: [Int], _ end: Int) -> Bool {
+			var res: Bool = false
+			if end == 0 {
+				return true
+			}
+			for i in (0..<end).reversed() {
+				if nums[i] >= end - i {
+					return canJumpTmp(nums, i)
+				}
+			}
+			
+			return false
+		}
+	}
+	
+	class Test199 {
+		
+		/// 二叉树的右视图
+		/// - Parameter root: <#root description#>
+		/// - Returns: <#description#>
+		func rightSideView(_ root: TreeNode?) -> [Int] {
+			guard let root = root else {
+				return []
+			}
+			var res: [Int] = []
+			var queue: [TreeNode] = [root]
+			while queue.count > 0 {
+				let n = queue.count
+				for i in 0..<n {
+					let node = queue.removeFirst()
+					if i == 0 {
+						res.append(node.val)
+					}
+					if let right = node.right {
+						queue.append(right)
+					}
+					if let left = node.left {
+						queue.append(left)
+					}
+				}
+			}
+			return res
+		}
+		
+		/// 二叉树的左视图
+		/// - Parameter root: <#root description#>
+		/// - Returns: <#description#>
+		func leftSideView(_ root: TreeNode?) -> [Int] {
+			guard let root = root else {
+				return []
+			}
+			var res: [Int] = []
+			var queue: [TreeNode] = [root]
+			while queue.count > 0 {
+				let n = queue.count
+				for i in 0..<n {
+					let node = queue.removeFirst()
+					if i == 0 {
+						res.append(node.val)
+					}
+					if let left = node.left {
+						queue.append(left)
+					}
+					if let right = node.right {
+						queue.append(right)
+					}
+				}
+			}
+			return res
+		}
+	}
+	
+	class Test4 {
+		func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+			let nums = merge(nums1,nums2)
+			let t = nums.count
+			if t%2==0 {
+				return Double((nums[t/2-1]+nums[t/2]))/2.0
+			} else {
+				return Double(nums[t/2])
+			}
+		}
+		
+		func merge(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+			var nums: [Int] = []
+			var i: Int = 0
+			var j: Int = 0
+			while i<nums1.count && j<nums2.count {
+				if nums1[i] <= nums2[j] {
+					nums.append(nums1[i])
+					i += 1
+				} else {
+					nums.append(nums2[j])
+					j += 1
+				}
+			}
+			if i == nums1.count {
+				for k in j..<nums2.count {
+					nums.append(nums2[k])
+				}
+			}
+			if j == nums2.count {
+				for k in i..<nums1.count {
+					nums.append(nums1[k])
+				}
+			}
+			return nums
+		}
+	}
 }
 
 class Node {

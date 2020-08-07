@@ -28,13 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     navigator.configHandleableUrlScheme(scheme: "llss")
     navigator.configFileNameOfURLMapping(fileName: "urlmapping")
     navigator.configMainNavigationViewController(mainNavigationViewController: navigationViewController)
-		let l1 = ListNode.createListNode([1,2,3,4,5])
+//		let l1 = ListNode.createListNode([1,2,3,4,5])
 //		let l2 = ListNode.createListNode([1,3,4])
 //		let l3 = ListNode.createListNode([2,6])
 //		let root = TreeNode(1)
 //		root.left = TreeNode(3)
 //		root.left?.right = TreeNode(2)
-		let t = LeecodeTest.Test92().reverseBetween(l1, 2, 4)
+		let t = LeecodeTest.Test4().findMedianSortedArrays([1,3], [2])
     return true
   }
 
